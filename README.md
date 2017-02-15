@@ -5,4 +5,4 @@ Inflocode.mat;
 blueprint.mat;
 impedance_20160402-161721_inbrain.h5;
 snapshot_20160402-161433_planetEarth.h5;
-shanksfinal.png
+shanksfinal.png;
