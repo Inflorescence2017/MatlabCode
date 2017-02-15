@@ -1,4 +1,4 @@
-# Main Code
+# Instructions to Run Software
 In order for the sofware to work, you must have the following in the same path folder:
 
 Inflocode.m;
