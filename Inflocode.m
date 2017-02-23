@@ -1,8 +1,11 @@
 % Load Snapshot All Channels And Channel Map
 
 load('blueprint.mat');
-filename='snapshot_20160402-140133.h5';
+filename='snapshot_20160402-161433_planetEarth.h5';
 h5two = 'impedance_20160402-161721_inbrain.h5';
+
+%Load Colormap
+map = linear_bmy_10_95_c71_n256;
 
 % Convert to Microvolts
 % 0.195 uV per bit
@@ -52,13 +55,16 @@ for t=1:length(filter_data(1,:))
         cdata=filter_data(:,t);
         cdata=cdata - min(cdata);
         cdata=cdata / max(cdata);
+        cdata(~dex, :)= 0.01;
+        cdata(cdata<=0.01) = 0.01;       
+        sz = length(map);
+        bdata = round(cdata.*sz); 
+        
         if t==1  
             % probe image
             I = imread('shanksfinal.png');
-            image('CData', I, 'XData',[-2 23],'YData', [-10 120])
-    
+            image('CData', I, 'XData',[-2 23],'YData', [-10 120])    
             hold on;
-            
             % axes and title
             xlim([-2 23])
             ylim([-10 110])
@@ -69,13 +75,13 @@ for t=1:length(filter_data(1,:))
         
     for ch=1:1024
         if t==1  
-     
-            h(ch)= plot(blueprint(ch,1)*5+blueprint(ch,3), blueprint(ch,2),'.','color',[cdata(ch) 1-cdata(ch) 1-cdata(ch)], 'MarkerSize', 25);
+            x = bdata(ch);
+            h(ch)= plot(blueprint(ch,1)*5+blueprint(ch,3), blueprint(ch,2),'.','color',[map(x,1) map(x,2) map(x,3)], 'MarkerSize', 20);
             hold on;
             
         else 
-            
-          set(h(ch),'color',[cdata(ch) 1-cdata(ch) 1-cdata(ch)]);
+            x = bdata(ch);
+            set(h(ch),'color',[map(x,1) map(x,2) map(x,3)]);
           
         end
 
